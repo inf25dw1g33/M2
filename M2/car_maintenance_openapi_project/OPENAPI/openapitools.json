@@ -1,0 +1,5 @@
+{
+  "generatorName": "nodejs-express-server",
+  "inputSpec": "openapi.yaml",
+  "outputDir": "express-server"
+}

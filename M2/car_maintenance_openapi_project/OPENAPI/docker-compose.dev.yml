@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+  sql:
+    build: ./db
+    image: inf25dw1g33/sql:V1
+    container_name: car-sql-dev
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: car_maintenance
+      MYSQL_USER: car
+      MYSQL_PASSWORD: car
+    ports:
+      - "3307:3306"  # Porta do MySQL para dev
+    volumes:
+      - car-mysql-data-dev:/var/lib/mysql
+
+  app:
+    build: ./express-server
+    image: inf25dw1g33/app:V1
+    container_name: car-app-dev
+    environment:
+      DB_HOST: sql
+      DB_PORT: 3306  # Porta interna do MySQL no container
+      DB_USER: car
+      DB_PASSWORD: car
+      DB_NAME: car_maintenance
+      NODE_ENV: development
+    ports:
+      - "8080:8080"  # Porta da aplicação para dev
+    depends_on:
+      - sql
+
+volumes:
+  car-mysql-data-dev:
+
+networks:
+  dev_network:
+    driver: bridge  

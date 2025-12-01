@@ -1,0 +1,561 @@
+openapi: 3.0.3
+info:
+  title: Car Maintenance API
+  version: 1.0.0
+  description: API REST para gestão de manutenção de automóveis (trabalho prático Desenvolvimento Web I).
+servers:
+  - url: http://localhost:8080
+    description: Ambiente de Desenvolvimento
+  - url: http://localhost:8081
+    description: Ambiente de Produção
+
+tags:
+  - name: Owners
+    description: Gestão de proprietários
+  - name: Vehicles
+    description: Gestão de veículos
+  - name: Service Types
+    description: Tipos de serviço disponíveis
+  - name: Service Records
+    description: Registos de manutenção
+
+paths:
+  /api/owners:
+    get:
+      tags:
+        - Owners
+      summary: Lista todos os proprietários
+      description: Retorna uma lista de proprietários. Permite filtrar por nome.
+      parameters:
+        - name: name
+          in: query
+          description: Filtrar por nome (pesquisa parcial)
+          required: false
+          schema:
+            type: string
+          example: Maria
+      responses:
+        '200':
+          description: Lista de proprietários
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Owner'
+    post:
+      tags:
+        - Owners
+      summary: Cria um novo proprietário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OwnerInput'
+      responses:
+        '201':
+          description: Proprietário criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Owner'
+
+  /api/owners/{id}:
+    get:
+      tags:
+        - Owners
+      summary: Obtém um proprietário pelo id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Proprietário encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Owner'
+        '404':
+          description: Proprietário não encontrado
+    put:
+      tags:
+        - Owners
+      summary: Atualiza um proprietário
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OwnerInput'
+      responses:
+        '200':
+          description: Proprietário atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Owner'
+    delete:
+      tags:
+        - Owners
+      summary: Remove um proprietário
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Proprietário removido
+
+  /api/vehicles:
+    get:
+      tags:
+        - Vehicles
+      summary: Lista todos os veículos
+      description: Retorna uma lista de veículos. Permite filtrar por marca, proprietário ou ano.
+      parameters:
+        - name: brand
+          in: query
+          description: Filtrar por marca (pesquisa parcial)
+          required: false
+          schema:
+            type: string
+          example: BMW
+        - name: owner_id
+          in: query
+          description: Filtrar por ID do proprietário
+          required: false
+          schema:
+            type: integer
+          example: 1
+        - name: year
+          in: query
+          description: Filtrar por ano de fabrico
+          required: false
+          schema:
+            type: integer
+          example: 2020
+      responses:
+        '200':
+          description: Lista de veículos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Vehicle'
+    post:
+      tags:
+        - Vehicles
+      summary: Regista um novo veículo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VehicleInput'
+      responses:
+        '201':
+          description: Veículo criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vehicle'
+
+  /api/vehicles/{id}:
+    get:
+      tags:
+        - Vehicles
+      summary: Obtém um veículo pelo id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Veículo encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vehicle'
+        '404':
+          description: Veículo não encontrado
+    put:
+      tags:
+        - Vehicles
+      summary: Atualiza um veículo
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VehicleInput'
+      responses:
+        '200':
+          description: Veículo atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vehicle'
+    delete:
+      tags:
+        - Vehicles
+      summary: Remove um veículo
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Veículo removido
+
+  /api/service-types:
+    get:
+      tags:
+        - Service Types
+      summary: Lista todos os tipos de serviço
+      description: Retorna uma lista de tipos de serviço. Permite filtrar por nome.
+      parameters:
+        - name: name
+          in: query
+          description: Filtrar por nome (pesquisa parcial)
+          required: false
+          schema:
+            type: string
+          example: óleo
+      responses:
+        '200':
+          description: Lista de tipos de serviço
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ServiceType'
+    post:
+      tags:
+        - Service Types
+      summary: Cria um novo tipo de serviço
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceTypeInput'
+      responses:
+        '201':
+          description: Tipo de serviço criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceType'
+
+  /api/service-types/{id}:
+    get:
+      tags:
+        - Service Types
+      summary: Obtém um tipo de serviço pelo id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Tipo de serviço encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceType'
+        '404':
+          description: Tipo de serviço não encontrado
+    put:
+      tags:
+        - Service Types
+      summary: Atualiza um tipo de serviço
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceTypeInput'
+      responses:
+        '200':
+          description: Tipo de serviço atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceType'
+    delete:
+      tags:
+        - Service Types
+      summary: Remove um tipo de serviço
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Tipo de serviço removido
+
+  /api/service-records:
+    get:
+      tags:
+        - Service Records
+      summary: Lista todos os registos de serviço
+      description: Retorna uma lista de registos de serviço. Permite filtrar por veículo ou tipo de serviço.
+      parameters:
+        - name: vehicle_id
+          in: query
+          description: Filtrar por ID do veículo
+          required: false
+          schema:
+            type: integer
+          example: 1
+        - name: service_type_id
+          in: query
+          description: Filtrar por ID do tipo de serviço
+          required: false
+          schema:
+            type: integer
+          example: 1
+      responses:
+        '200':
+          description: Lista de registos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ServiceRecord'
+    post:
+      tags:
+        - Service Records
+      summary: Cria um novo registo de serviço
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceRecordInput'
+      responses:
+        '201':
+          description: Registo de serviço criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceRecord'
+
+  /api/service-records/{id}:
+    get:
+      tags:
+        - Service Records
+      summary: Obtém um registo de serviço pelo id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Registo encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceRecord'
+        '404':
+          description: Registo não encontrado
+    put:
+      tags:
+        - Service Records
+      summary: Atualiza um registo de serviço
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceRecordInput'
+      responses:
+        '200':
+          description: Registo atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceRecord'
+    delete:
+      tags:
+        - Service Records
+      summary: Remove um registo de serviço
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Registo removido
+
+components:
+  schemas:
+    Owner:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+          example: Gonçalo Azevedo
+        email:
+          type: string
+          format: email
+          example: goncalo@example.com
+        phone:
+          type: string
+          example: "+351910000001"
+    OwnerInput:
+      type: object
+      required:
+        - name
+        - email
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+
+    Vehicle:
+      type: object
+      properties:
+        id:
+          type: integer
+        owner_id:
+          type: integer
+        brand:
+          type: string
+        model:
+          type: string
+        license_plate:
+          type: string
+        year:
+          type: integer
+    VehicleInput:
+      type: object
+      required:
+        - owner_id
+        - brand
+        - model
+        - license_plate
+      properties:
+        owner_id:
+          type: integer
+        brand:
+          type: string
+        model:
+          type: string
+        license_plate:
+          type: string
+        year:
+          type: integer
+
+    ServiceType:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+    ServiceTypeInput:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+
+    ServiceRecord:
+      type: object
+      properties:
+        id:
+          type: integer
+        vehicle_id:
+          type: integer
+        service_type_id:
+          type: integer
+        service_date:
+          type: string
+          format: date
+        mileage_km:
+          type: integer
+        cost:
+          type: number
+          format: float
+        notes:
+          type: string
+    ServiceRecordInput:
+      type: object
+      required:
+        - vehicle_id
+        - service_type_id
+        - service_date
+        - mileage_km
+        - cost
+      properties:
+        vehicle_id:
+          type: integer
+        service_type_id:
+          type: integer
+        service_date:
+          type: string
+          format: date
+        mileage_km:
+          type: integer
+        cost:
+          type: number
+          format: float
+        notes:
+          type: string

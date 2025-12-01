@@ -1,0 +1,387 @@
+{
+  "info": {
+    "_postman_id": "car-maintenance-api",
+    "name": "Car Maintenance API",
+    "description": "API REST para gestão de manutenção de automóveis - Desenvolvimento Web I (UMaia)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8081"
+    }
+  ],
+  "item": [
+    {
+      "name": "Owners",
+      "item": [
+        {
+          "name": "Lista todos os proprietários",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/owners"
+          }
+        },
+        {
+          "name": "Filtrar proprietários por nome",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/owners?name=Maria",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "owners"],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "Maria"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtém proprietário por ID",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/owners/1"
+          }
+        },
+        {
+          "name": "Cria novo proprietário",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/owners",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Novo Proprietário\",\n  \"email\": \"novo@example.com\",\n  \"phone\": \"+351911111111\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Atualiza proprietário",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/owners/1",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Gonçalo Azevedo Atualizado\",\n  \"email\": \"goncalo.updated@example.com\",\n  \"phone\": \"+351910000001\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Remove proprietário",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/owners/31"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Vehicles",
+      "item": [
+        {
+          "name": "Lista todos os veículos",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/vehicles"
+          }
+        },
+        {
+          "name": "Filtrar veículos por marca",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/vehicles?brand=BMW",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "vehicles"],
+              "query": [
+                {
+                  "key": "brand",
+                  "value": "BMW"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filtrar veículos por proprietário",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/vehicles?owner_id=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "vehicles"],
+              "query": [
+                {
+                  "key": "owner_id",
+                  "value": "1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filtrar veículos por ano",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/vehicles?year=2020",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "vehicles"],
+              "query": [
+                {
+                  "key": "year",
+                  "value": "2020"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtém veículo por ID",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/vehicles/1"
+          }
+        },
+        {
+          "name": "Cria novo veículo",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/vehicles",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"owner_id\": 1,\n  \"brand\": \"Tesla\",\n  \"model\": \"Model S\",\n  \"license_plate\": \"XX-99-XX\",\n  \"year\": 2024\n}"
+            }
+          }
+        },
+        {
+          "name": "Atualiza veículo",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/vehicles/1",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"owner_id\": 1,\n  \"brand\": \"Volkswagen\",\n  \"model\": \"Golf 8\",\n  \"license_plate\": \"AA-00-AA\",\n  \"year\": 2022\n}"
+            }
+          }
+        },
+        {
+          "name": "Remove veículo",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/vehicles/31"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Service Types",
+      "item": [
+        {
+          "name": "Lista todos os tipos de serviço",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/service-types"
+          }
+        },
+        {
+          "name": "Filtrar tipos de serviço por nome",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/service-types?name=óleo",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "service-types"],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "óleo"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtém tipo de serviço por ID",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/service-types/1"
+          }
+        },
+        {
+          "name": "Cria novo tipo de serviço",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/service-types",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Limpeza de injetores\",\n  \"description\": \"Limpeza e verificação do sistema de injeção\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Atualiza tipo de serviço",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/service-types/1",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Mudança de óleo completa\",\n  \"description\": \"Substituição de óleo de motor, filtro de óleo e filtro de ar\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Remove tipo de serviço",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/service-types/31"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Service Records",
+      "item": [
+        {
+          "name": "Lista todos os registos de serviço",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/service-records"
+          }
+        },
+        {
+          "name": "Filtrar registos por veículo",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/service-records?vehicle_id=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "service-records"],
+              "query": [
+                {
+                  "key": "vehicle_id",
+                  "value": "1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filtrar registos por tipo de serviço",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/service-records?service_type_id=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "service-records"],
+              "query": [
+                {
+                  "key": "service_type_id",
+                  "value": "1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtém registo de serviço por ID",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/service-records/1"
+          }
+        },
+        {
+          "name": "Cria novo registo de serviço",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/service-records",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"vehicle_id\": 1,\n  \"service_type_id\": 1,\n  \"service_date\": \"2024-06-15\",\n  \"mileage_km\": 125000,\n  \"cost\": 95.00,\n  \"notes\": \"Mudança de óleo de rotina\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Atualiza registo de serviço",
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/service-records/1",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"vehicle_id\": 1,\n  \"service_type_id\": 1,\n  \"service_date\": \"2024-01-15\",\n  \"mileage_km\": 120000,\n  \"cost\": 99.90,\n  \"notes\": \"Óleo 5W30 sintético + filtro premium\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Remove registo de serviço",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/service-records/36"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Health Check",
+      "item": [
+        {
+          "name": "Verificar estado da API",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/health"
+          }
+        }
+      ]
+    }
+  ]
+}
